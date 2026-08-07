@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disfrútalo · Licores seleccionados con escala de dulzor</title>
+<meta name="description" content="Disfrútalo.cl — Vinos, espumantes, destilados y licores con escala de dulzor y ranking de ventas. Elige fácil, disfruta mejor.">
+<style>
+  :root{
+    --bg:#120d0a;
+    --bg-2:#1b1310;
+    --card:#241812;
+    --card-2:#2e1e16;
+    --line:#3a281e;
+    --text:#f5ece2;
+    --muted:#b39a86;
+    --gold:#e0a95e;
+    --gold-2:#c98a3a;
+    --wine:#7b2233;
+    --green:#3fae7a;
+    --shadow:0 18px 40px rgba(0,0,0,.45);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 80% -10%,#2a1a12 0%,var(--bg) 60%);
+    color:var(--text);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ---------- Age gate ---------- */
+  #ageGate{
+    position:fixed;inset:0;z-index:100;
+    background:linear-gradient(160deg,#0d0906,#1b1008);
+    display:flex;align-items:center;justify-content:center;padding:24px;
+  }
+  #ageGate .box{
+    max-width:440px;text-align:center;background:var(--card);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:40px 32px;box-shadow:var(--shadow);
+  }
+  #ageGate .logo{font-size:2rem;font-weight:800;letter-spacing:.5px}
+  #ageGate .logo span{color:var(--gold)}
+  #ageGate p{color:var(--muted);margin:14px 0 26px;font-size:.95rem}
+  .btn{
+    cursor:pointer;border:none;border-radius:999px;font-weight:700;
+    padding:13px 26px;font-size:1rem;transition:.18s transform,.18s box-shadow,.18s background;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#2a1400;box-shadow:0 10px 22px rgba(224,169,94,.28)}
+  .btn-gold:hover{box-shadow:0 14px 28px rgba(224,169,94,.42)}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .btn-ghost:hover{color:var(--text)}
+  .gate-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .gate-legal{font-size:.72rem;color:#6f5c4d;margin-top:22px;line-height:1.4}
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky;top:0;z-index:40;
+    backdrop-filter:blur(10px);
+    background:rgba(18,13,10,.82);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{font-size:1.5rem;font-weight:800;letter-spacing:.3px}
+  .brand span{color:var(--gold)}
+  .brand small{display:block;font-size:.62rem;letter-spacing:3px;color:var(--muted);font-weight:600;margin-top:-4px}
+  .cart-btn{
+    position:relative;background:var(--card-2);border:1px solid var(--line);
+    color:var(--text);border-radius:999px;padding:9px 18px;cursor:pointer;font-weight:600;
+    display:flex;align-items:center;gap:8px;transition:.18s;
+  }
+  .cart-btn:hover{border-color:var(--gold)}
+  .cart-count{
+    background:var(--gold);color:#2a1400;font-size:.72rem;font-weight:800;
+    min-width:20px;height:20px;border-radius:999px;display:inline-flex;
+    align-items:center;justify-content:center;padding:0 5px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:64px 0 40px;text-align:center}
+  .hero h1{font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.1;font-weight:800;letter-spacing:-.5px}
+  .hero h1 span{color:var(--gold)}
+  .hero p{color:var(--muted);max-width:560px;margin:18px auto 0;font-size:1.08rem}
+  .hero-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+  .pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:.85rem;color:var(--muted)}
+  .pill b{color:var(--text)}
+
+  /* ---------- Controls ---------- */
+  .controls{margin:34px 0 8px;display:flex;flex-direction:column;gap:16px}
+  .search-row{display:flex;gap:12px;flex-wrap:wrap}
+  .search{
+    flex:1;min-width:220px;display:flex;align-items:center;gap:10px;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0 14px;
+  }
+  .search input{background:none;border:none;outline:none;color:var(--text);width:100%;height:48px;font-size:1rem}
+  .search input::placeholder{color:#8a7360}
+  select.sort{
+    background:var(--card);border:1px solid var(--line);color:var(--text);
+    border-radius:12px;padding:0 16px;height:50px;font-size:.95rem;cursor:pointer;min-width:200px;
+  }
+  .cats{display:flex;gap:10px;flex-wrap:wrap}
+  .chip{
+    background:var(--card);border:1px solid var(--line);color:var(--muted);
+    border-radius:999px;padding:9px 17px;cursor:pointer;font-size:.9rem;font-weight:600;
+    transition:.16s;user-select:none;
+  }
+  .chip:hover{color:var(--text);border-color:var(--gold-2)}
+  .chip.active{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#2a1400;border-color:transparent}
+  .sweet-filter{display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+  .sweet-filter input[type=range]{accent-color:var(--gold);width:180px}
+
+  .result-info{color:var(--muted);font-size:.85rem;margin:6px 2px 0}
+
+  /* ---------- Grid & cards ---------- */
+  .grid{
+    display:grid;gap:20px;margin:24px 0 60px;
+    grid-template-columns:repeat(auto-fill,minmax(255px,1fr));
+  }
+  .card{
+    background:linear-gradient(180deg,var(--card),var(--bg-2));
+    border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:.2s transform,.2s border-color,.2s box-shadow;position:relative;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--gold-2);box-shadow:var(--shadow)}
+  .card .thumb{
+    height:150px;display:flex;align-items:center;justify-content:center;font-size:4.4rem;
+    background:radial-gradient(circle at 50% 30%,#3a2418,#1c120c);position:relative;
+  }
+  .rank-badge{
+    position:absolute;top:12px;left:12px;background:var(--wine);color:#fff;
+    font-size:.7rem;font-weight:800;padding:5px 11px;border-radius:999px;letter-spacing:.4px;
+    box-shadow:0 6px 14px rgba(123,34,51,.4);
+  }
+  .rank-badge.top{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#2a1400}
+  .card-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card .cat{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
+  .card h3{font-size:1.12rem;font-weight:700;line-height:1.25}
+  .card .desc{font-size:.85rem;color:var(--muted);flex:1}
+
+  /* sweetness scale */
+  .sweet{display:flex;flex-direction:column;gap:5px}
+  .sweet-top{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--muted)}
+  .sweet-top b{color:var(--text)}
+  .sweet-bar{display:flex;gap:4px}
+  .sweet-seg{height:8px;flex:1;border-radius:4px;background:#3a281e}
+  .sweet-seg.on{background:linear-gradient(90deg,var(--gold-2),var(--gold))}
+
+  /* sales / popularity */
+  .sales{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted)}
+  .stars{color:var(--gold);letter-spacing:1px}
+  .fire{color:#ff7a3c}
+
+  .card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px 16px}
+  .price{font-size:1.28rem;font-weight:800;color:var(--text)}
+  .price small{font-size:.72rem;color:var(--muted);font-weight:600}
+  .add{
+    background:var(--card-2);border:1px solid var(--gold-2);color:var(--gold);
+    border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700;font-size:.85rem;transition:.16s;
+  }
+  .add:hover{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#2a1400}
+
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 0}
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.25s;z-index:60}
+  .overlay.open{opacity:1;pointer-events:auto}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:380px;max-width:90vw;z-index:70;
+    background:var(--bg-2);border-left:1px solid var(--line);
+    transform:translateX(100%);transition:.28s;display:flex;flex-direction:column;
+  }
+  .drawer.open{transform:translateX(0)}
+  .drawer-head{padding:20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .drawer-head h3{font-size:1.15rem}
+  .drawer-head .x{background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer}
+  .drawer-body{flex:1;overflow:auto;padding:12px 20px}
+  .ci{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+  .ci .emo{font-size:1.8rem}
+  .ci .info{flex:1}
+  .ci .info b{font-size:.92rem}
+  .ci .info span{display:block;font-size:.78rem;color:var(--muted)}
+  .qty{display:flex;align-items:center;gap:8px}
+  .qty button{width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font-weight:700}
+  .drawer-foot{padding:18px 20px;border-top:1px solid var(--line)}
+  .total{display:flex;justify-content:space-between;font-size:1.15rem;font-weight:800;margin-bottom:14px}
+  .wa{
+    width:100%;display:flex;align-items:center;justify-content:center;gap:9px;
+    background:var(--green);color:#04250f;font-weight:800;border:none;border-radius:12px;
+    padding:15px;cursor:pointer;font-size:1rem;transition:.16s;
+  }
+  .wa:hover{filter:brightness(1.07)}
+  .cart-empty{text-align:center;color:var(--muted);padding:50px 10px}
+
+  /* ---------- Carrete band ---------- */
+  .carrete-band{margin-top:30px}
+  .cb-inner{
+    background:linear-gradient(135deg,var(--wine),#4d1420);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 26px;display:flex;align-items:center;justify-content:space-between;
+    gap:24px;flex-wrap:wrap;box-shadow:var(--shadow);
+  }
+  .cb-txt h2{font-size:1.4rem;margin-bottom:4px}
+  .cb-txt p{color:#f0d9dd;font-size:.92rem;max-width:520px}
+  .cb-txt b{color:var(--gold)}
+  .cb-tiers{display:flex;gap:12px;flex-wrap:wrap}
+  .tier{
+    background:rgba(0,0,0,.28);border:1px solid rgba(224,169,94,.35);
+    border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;
+  }
+  .tier b{display:block;font-size:1.15rem;color:var(--gold)}
+  .tier span{font-size:.72rem;color:#f0d9dd}
+  .tier.free{background:rgba(63,174,122,.18);border-color:rgba(63,174,122,.5)}
+  .tier.free b{color:var(--green)}
+
+  /* ---------- Offers in drawer ---------- */
+  .offers{margin-bottom:14px;display:flex;flex-direction:column;gap:10px}
+  .offer{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:11px 13px;font-size:.82rem;color:var(--muted);
+  }
+  .offer.hot{border-color:var(--gold-2);background:linear-gradient(135deg,rgba(224,169,94,.12),transparent)}
+  .offer.done{border-color:rgba(63,174,122,.5);background:rgba(63,174,122,.12);color:var(--text)}
+  .offer b{color:var(--text)}
+  .prog{height:8px;background:#3a281e;border-radius:5px;margin-top:8px;overflow:hidden}
+  .prog>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-2),var(--gold));border-radius:5px;transition:.35s width}
+  .prog.full>i{background:linear-gradient(90deg,var(--green),#5fd499)}
+  .sumline{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+  .sumline.disc{color:var(--green);font-weight:700}
+
+  /* ---------- Footer ---------- */
+  footer.site{border-top:1px solid var(--line);padding:40px 0;margin-top:20px;background:var(--bg-2)}
+  .foot-grid{display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between}
+  footer h4{color:var(--gold);font-size:.95rem;margin-bottom:10px}
+  footer p,footer a{color:var(--muted);font-size:.88rem;display:block;margin-bottom:6px}
+  footer a:hover{color:var(--text)}
+  .foot-legal{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);color:#6f5c4d;font-size:.75rem}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(140%);
+    background:var(--gold);color:#2a1400;font-weight:700;padding:13px 22px;border-radius:12px;
+    box-shadow:var(--shadow);z-index:90;transition:.3s;font-size:.9rem;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:600px){
+    .drawer{width:100%}
+    .hero{padding:44px 0 28px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== AGE GATE ===== -->
+<div id="ageGate">
+  <div class="box">
+    <div class="logo">Disfrú<span>talo</span></div>
+    <p>Para ingresar debes ser mayor de 18 años.<br>El consumo de alcohol es responsabilidad de quien lo consume.</p>
+    <div class="gate-actions">
+      <button class="btn btn-gold" onclick="passGate()">Soy mayor de 18</button>
+      <button class="btn btn-ghost" onclick="location.href='https://www.google.com'">Soy menor</button>
+    </div>
+    <p class="gate-legal">Ley N° 19.925 · Prohibida la venta de bebidas alcohólicas a menores de 18 años en Chile. Bebe con moderación.</p>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="site">
+  <div class="wrap nav">
+    <div class="brand">Disfrú<span>talo</span><small>LICORERÍA</small></div>
+    <button class="cart-btn" onclick="openCart()">
+      🎉 Mi carrete <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero wrap">
+  <h1>Elige por <span>dulzor</span>, disfruta sin dudar</h1>
+  <p>Cada botella con su escala de dulzor y su ranking de ventas real. Encuentra tu punto perfecto en segundos.</p>
+  <div class="hero-badges">
+    <div class="pill">🍬 Escala de dulzor <b>0 a 5</b></div>
+    <div class="pill">🔥 Ranking de <b>más vendidos</b></div>
+    <div class="pill">🛵 Despacho <b>same day</b></div>
+  </div>
+</section>
+
+<!-- ===== CARRETE BAND ===== -->
+<section class="wrap carrete-band">
+  <div class="cb-inner">
+    <div class="cb-txt">
+      <h2>🎉 Armemos el compartir</h2>
+      <p>Suma tus botellas al <b>carrete</b>. Mientras más juntas, más beneficios: se activan descuentos por cantidad y el despacho gratis.</p>
+    </div>
+    <div class="cb-tiers">
+      <div class="tier"><b>3+</b><span>7% dcto</span></div>
+      <div class="tier"><b>6+</b><span>12% dcto</span></div>
+      <div class="tier free"><b>$30.000</b><span>despacho gratis</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTROLS ===== -->
+<section class="wrap controls">
+  <div class="search-row">
+    <div class="search">
+      🔎 <input id="search" type="text" placeholder="Busca por nombre, tipo o sabor…" oninput="render()">
+    </div>
+    <select class="sort" id="sort" onchange="render()">
+      <option value="pop">Ordenar: Más vendidos</option>
+      <option value="sweetAsc">Menos dulce → Más dulce</option>
+      <option value="sweetDesc">Más dulce → Menos dulce</option>
+      <option value="priceAsc">Precio: menor a mayor</option>
+      <option value="priceDesc">Precio: mayor a menor</option>
+    </select>
+  </div>
+
+  <div class="cats" id="cats"></div>
+
+  <div class="sweet-filter">
+    <span>🍬 Dulzor máximo:</span>
+    <input type="range" id="sweetMax" min="0" max="5" value="5" oninput="render()">
+    <span id="sweetMaxLabel"><b style="color:var(--text)">5</b> · sin límite</span>
+  </div>
+
+  <div class="result-info" id="resultInfo"></div>
+</section>
+
+<!-- ===== GRID ===== -->
+<section class="wrap">
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- ===== CART DRAWER ===== -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>🎉 Tu carrete</h3>
+    <button class="x" onclick="closeCart()">×</button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot">
+    <div class="offers" id="offers"></div>
+    <div class="sumline"><span>Subtotal</span><span id="cartSub">$0</span></div>
+    <div class="sumline disc" id="discLine" style="display:none"><span id="discLabel">Descuento carrete</span><span id="cartDisc">-$0</span></div>
+    <div class="total"><span>Total</span><span id="cartTotal">$0</span></div>
+    <button class="wa" onclick="checkout()">🟢 Enviar mi carrete por WhatsApp</button>
+  </div>
+</aside>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand">Disfrú<span>talo</span></div>
+      <p style="margin-top:10px">Licores seleccionados,<br>entregados con cariño.</p>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <a href="https://wa.me/56900000000">WhatsApp: +56 9 0000 0000</a>
+      <a href="mailto:hola@disfrutalo.cl">hola@disfrutalo.cl</a>
+      <p>disfrutalo.cl</p>
+    </div>
+    <div>
+      <h4>Despacho</h4>
+      <p>Lun a Sáb · 11:00 – 21:00</p>
+      <p>Despacho same-day en la ciudad</p>
+      <p>Retiro en tienda disponible</p>
+    </div>
+  </div>
+  <div class="wrap foot-legal">
+    © 2026 Disfrútalo.cl — Prohibida la venta de alcohol a menores de 18 años (Ley 19.925). Bebe con moderación. Ningún producto se despacha sin verificación de edad.
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA (edita aquí tus productos) ============ */
+const PRODUCTS = [
+  {id:1,  nombre:"Vino Reserva Carménère", cat:"Vinos",       emo:"🍷", precio:8990,  dulzor:1, ventas:98, desc:"Seco, cuerpo medio, notas de ciruela y pimienta.", grad:"13.5°"},
+  {id:2,  nombre:"Espumante Brut",         cat:"Espumantes",  emo:"🍾", precio:9990,  dulzor:1, ventas:91, desc:"Burbuja fina, fresco y elegante. Ideal para brindar.", grad:"12°"},
+  {id:3,  nombre:"Moscato Dulce",          cat:"Vinos",       emo:"🍇", precio:7490,  dulzor:5, ventas:95, desc:"Muy dulce, aromático, notas de durazno y flores.", grad:"7.5°"},
+  {id:4,  nombre:"Whisky 12 años",         cat:"Destilados",  emo:"🥃", precio:24990, dulzor:1, ventas:88, desc:"Añejado, ahumado suave, final largo.", grad:"40°"},
+  {id:5,  nombre:"Ron Añejo",              cat:"Destilados",  emo:"🥃", precio:15990, dulzor:3, ventas:84, desc:"Dulzor cálido, vainilla y caramelo.", grad:"38°"},
+  {id:6,  nombre:"Pisco 40°",              cat:"Destilados",  emo:"🍶", precio:11990, dulzor:1, ventas:93, desc:"Transparente, notas cítricas. Base perfecta de cóctel.", grad:"40°"},
+  {id:7,  nombre:"Licor de Café",          cat:"Licores",     emo:"☕", precio:9990,  dulzor:4, ventas:79, desc:"Dulce e intenso, ideal solo o con hielo.", grad:"20°"},
+  {id:8,  nombre:"Baileys Crema",          cat:"Licores",     emo:"🥛", precio:13990, dulzor:5, ventas:90, desc:"Cremoso y dulce, whisky con crema irlandesa.", grad:"17°"},
+  {id:9,  nombre:"Cerveza IPA (six pack)", cat:"Cervezas",    emo:"🍺", precio:6990,  dulzor:0, ventas:87, desc:"Amarga y lupulada, sin dulzor. Para amantes del hop.", grad:"6.2°"},
+  {id:10, nombre:"Cerveza Golden (six)",   cat:"Cervezas",    emo:"🍺", precio:5990,  dulzor:1, ventas:82, desc:"Suave, dorada y refrescante. Fácil de tomar.", grad:"4.8°"},
+  {id:11, nombre:"Gin London Dry",         cat:"Destilados",  emo:"🍸", precio:16990, dulzor:0, ventas:80, desc:"Seco, botánico, enebro protagonista.", grad:"43°"},
+  {id:12, nombre:"Vino Blanco Sauvignon",  cat:"Vinos",       emo:"🥂", precio:7990,  dulzor:2, ventas:77, desc:"Fresco, cítrico, ligeramente frutal.", grad:"12.5°"},
+  {id:13, nombre:"Tequila Reposado",       cat:"Destilados",  emo:"🌵", precio:19990, dulzor:2, ventas:75, desc:"Agave suave con toque de madera.", grad:"38°"},
+  {id:14, nombre:"Amaretto",               cat:"Licores",     emo:"🌰", precio:12490, dulzor:4, ventas:70, desc:"Dulce, aroma a almendra tostada.", grad:"28°"},
+  {id:15, nombre:"Late Harvest Dulce",     cat:"Vinos",       emo:"🍷", precio:10990, dulzor:5, ventas:73, desc:"Vino de postre, muy dulce y sedoso.", grad:"12°"},
+  {id:16, nombre:"Vodka Premium",          cat:"Destilados",  emo:"🧊", precio:14990, dulzor:0, ventas:83, desc:"Neutro, limpio y suave. Ideal para mezclar.", grad:"40°"},
+];
+
+/* Textos de referencia por nivel de dulzor */
+const SWEET_LABELS = ["Seco","Muy suave","Suave","Semidulce","Dulce","Muy dulce"];
+
+/* ============ STATE ============ */
+let activeCat = "Todos";
+const cart = {}; // id -> qty
+const CLP = n => "$" + n.toLocaleString("es-CL");
+
+/* ============ AGE GATE ============ */
+function passGate(){
+  document.getElementById("ageGate").style.display="none";
+  try{ localStorage.setItem("disf_age","1"); }catch(e){}
+}
+try{ if(localStorage.getItem("disf_age")==="1") document.getElementById("ageGate").style.display="none"; }catch(e){}
+
+/* ============ CATEGORIES ============ */
+function buildCats(){
+  const cats = ["Todos", ...new Set(PRODUCTS.map(p=>p.cat))];
+  document.getElementById("cats").innerHTML = cats.map(c =>
+    `<div class="chip ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</div>`
+  ).join("");
+}
+function setCat(c){ activeCat=c; buildCats(); render(); }
+
+/* ============ RENDER ============ */
+function ventasToStars(v){
+  const s = Math.round(v/20); // 0-100 -> 0-5
+  return "★".repeat(s) + "☆".repeat(5-s);
+}
+function rankLabel(p, sortedTop){
+  if(p.id===sortedTop[0]) return {t:"🏆 Más vendido", cls:"top"};
+  if(sortedTop.slice(0,3).includes(p.id)) return {t:"🔥 Top ventas", cls:"top"};
+  if(p.ventas>=85) return {t:"Muy pedido", cls:""};
+  return null;
+}
+
+function render(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const sort = document.getElementById("sort").value;
+  const sweetMax = +document.getElementById("sweetMax").value;
+  document.getElementById("sweetMaxLabel").innerHTML =
+     `<b style="color:var(--text)">${sweetMax}</b> · ${SWEET_LABELS[sweetMax]}${sweetMax===5?" (sin límite)":""}`;
+
+  const topIds = [...PRODUCTS].sort((a,b)=>b.ventas-a.ventas).map(p=>p.id);
+
+  let list = PRODUCTS.filter(p=>{
+    if(activeCat!=="Todos" && p.cat!==activeCat) return false;
+    if(p.dulzor>sweetMax) return false;
+    if(q && !(p.nombre.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q))) return false;
+    return true;
+  });
+
+  list.sort((a,b)=>{
+    switch(sort){
+      case "sweetAsc": return a.dulzor-b.dulzor;
+      case "sweetDesc": return b.dulzor-a.dulzor;
+      case "priceAsc": return a.precio-b.precio;
+      case "priceDesc": return b.precio-a.precio;
+      default: return b.ventas-a.ventas;
+    }
+  });
+
+  const grid = document.getElementById("grid");
+  document.getElementById("resultInfo").textContent =
+    `${list.length} producto${list.length!==1?'s':''} ${activeCat!=='Todos'?'en '+activeCat:''}`;
+
+  if(!list.length){
+    grid.innerHTML = `<div class="empty">😕 No encontramos productos con esos filtros.<br>Prueba subir el dulzor o limpiar la búsqueda.</div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(p=>{
+    const rank = rankLabel(p, topIds);
+    const segs = [1,2,3,4,5].map(i=>`<div class="sweet-seg ${i<=p.dulzor?'on':''}"></div>`).join("");
+    return `
+    <article class="card">
+      <div class="thumb">
+        ${rank?`<span class="rank-badge ${rank.cls}">${rank.t}</span>`:""}
+        ${p.emo}
+      </div>
+      <div class="card-body">
+        <div class="cat">${p.cat} · ${p.grad}</div>
+        <h3>${p.nombre}</h3>
+        <p class="desc">${p.desc}</p>
+        <div class="sweet">
+          <div class="sweet-top"><span>Dulzor</span><b>${SWEET_LABELS[p.dulzor]}</b></div>
+          <div class="sweet-bar">${segs}</div>
+        </div>
+        <div class="sales">
+          <span class="stars">${ventasToStars(p.ventas)}</span>
+          <span>· ${p.ventas}% recomendado</span>
+          ${p.ventas>=90?'<span class="fire">🔥</span>':''}
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="price">${CLP(p.precio)} <small>c/u</small></div>
+        <button class="add" onclick="addToCart(${p.id})">+ Agregar</button>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+/* ============ CART ============ */
+function addToCart(id){
+  cart[id] = (cart[id]||0)+1;
+  updateCart();
+  const p = PRODUCTS.find(x=>x.id===id);
+  showToast(`${p.emo} ${p.nombre} agregado`);
+}
+function changeQty(id,d){
+  cart[id]=(cart[id]||0)+d;
+  if(cart[id]<=0) delete cart[id];
+  updateCart();
+}
+/* ---- Reglas de ofertas del carrete (edítalas aquí) ---- */
+const FREE_SHIP = 30000;                 // despacho gratis sobre este monto
+const DISCOUNT_TIERS = [                  // por total de unidades
+  {units:6, pct:12},
+  {units:3, pct:7},
+];
+function calcOrder(){
+  const items = Object.keys(cart).map(id=>({p:PRODUCTS.find(x=>x.id==id), q:cart[id]}));
+  const units = items.reduce((s,i)=>s+i.q,0);
+  const subtotal = items.reduce((s,i)=>s+i.p.precio*i.q,0);
+  const tier = DISCOUNT_TIERS.find(t=>units>=t.units);
+  const discPct = tier ? tier.pct : 0;
+  const discount = Math.round(subtotal*discPct/100);
+  const total = subtotal - discount;
+  return {items,units,subtotal,discPct,discount,total,freeShip:subtotal>=FREE_SHIP};
+}
+function renderOffers(o){
+  const box = document.getElementById("offers");
+  if(!o.items.length){ box.innerHTML=""; return; }
+  let html = "";
+
+  // Descuento por cantidad
+  const next = [...DISCOUNT_TIERS].reverse().find(t=>o.units<t.units);
+  if(o.discPct>0){
+    html += `<div class="offer hot">🎉 <b>${o.discPct}% de descuento</b> activo por llevar ${o.units} unidades.${
+      next? ` Suma ${next.units-o.units} más y llega a <b>${next.pct}%</b>.`:` ¡Máximo descuento alcanzado!`}</div>`;
+  } else if(next){
+    html += `<div class="offer">🍬 Suma <b>${next.units-o.units}</b> unidad${next.units-o.units>1?'es':''} más y desbloquea <b>${next.pct}% de descuento</b>.</div>`;
+  }
+
+  // Despacho gratis
+  if(o.freeShip){
+    html += `<div class="offer done">🛵 <b>¡Despacho gratis desbloqueado!</b> Tu carrete supera los ${CLP(FREE_SHIP)}.</div>`;
+  } else {
+    const falta = FREE_SHIP - o.subtotal;
+    const pct = Math.min(100, Math.round(o.subtotal/FREE_SHIP*100));
+    html += `<div class="offer">🛵 Te faltan <b>${CLP(falta)}</b> para el <b>despacho gratis</b>.
+      <div class="prog ${pct>=100?'full':''}"><i style="width:${pct}%"></i></div></div>`;
+  }
+  box.innerHTML = html;
+}
+function updateCart(){
+  const o = calcOrder();
+  document.getElementById("cartCount").textContent = o.units;
+  document.getElementById("cartSub").textContent = CLP(o.subtotal);
+  document.getElementById("cartTotal").textContent = CLP(o.total);
+  const discLine = document.getElementById("discLine");
+  if(o.discount>0){
+    discLine.style.display="flex";
+    document.getElementById("discLabel").textContent = `Descuento carrete (${o.discPct}%)`;
+    document.getElementById("cartDisc").textContent = "−"+CLP(o.discount);
+  } else discLine.style.display="none";
+
+  const body = document.getElementById("cartBody");
+  if(!o.items.length){ body.innerHTML = `<div class="cart-empty">Tu carrete está vacío.<br>Suma botellas y activa las ofertas 🍷🎉</div>`; renderOffers(o); return; }
+  body.innerHTML = o.items.map(({p,q})=>`
+    <div class="ci">
+      <div class="emo">${p.emo}</div>
+      <div class="info"><b>${p.nombre}</b><span>${CLP(p.precio)} · ${SWEET_LABELS[p.dulzor]}</span></div>
+      <div class="qty">
+        <button onclick="changeQty(${p.id},-1)">−</button>
+        <b>${q}</b>
+        <button onclick="changeQty(${p.id},1)">+</button>
+      </div>
+    </div>`).join("");
+  renderOffers(o);
+}
+function openCart(){ document.getElementById("drawer").classList.add("open"); document.getElementById("overlay").classList.add("open"); }
+function closeCart(){ document.getElementById("drawer").classList.remove("open"); document.getElementById("overlay").classList.remove("open"); }
+
+function checkout(){
+  const o = calcOrder();
+  if(!o.items.length){ showToast("Tu carrete está vacío"); return; }
+  let msg = "¡Hola Disfrútalo! 🎉 Armé este carrete:%0A%0A";
+  o.items.forEach(({p,q})=>{ msg += `• ${q}x ${p.nombre} — ${CLP(p.precio*q)}%0A`; });
+  msg += `%0ASubtotal: ${CLP(o.subtotal)}%0A`;
+  if(o.discount>0) msg += `Descuento carrete (${o.discPct}%): −${CLP(o.discount)}%0A`;
+  msg += `${o.freeShip?'Despacho: GRATIS 🛵%0A':''}*Total: ${CLP(o.total)}*%0A%0AConfirmo que soy mayor de 18 años.`;
+  // Reemplaza el número por el de la licorería:
+  window.open(`https://wa.me/56900000000?text=${msg}`,"_blank");
+}
+
+/* ============ TOAST ============ */
+let toastTimer;
+function showToast(t){
+  const el=document.getElementById("toast");
+  el.textContent=t; el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove("show"),1800);
+}
+
+/* ============ INIT ============ */
+buildCats();
+render();
+updateCart();
+</script>
+</body>
+</html>
