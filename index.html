@@ -7,14 +7,14 @@
 <meta name="description" content="Disfrútalo.cl — Vinos, espumantes, destilados y licores con escala de dulzor y ranking de ventas. Elige fácil, disfruta mejor.">
 <style>
   :root{
-    --bg:#120d0a;
-    --bg-2:#1b1310;
-    --card:#241812;
-    --card-2:#2e1e16;
-    --line:#3a281e;
-    --text:#f5ece2;
-    --muted:#b39a86;
-    --gold:#e0a95e;
+    --bg:#2a1620;
+    --bg-2:#331b27;
+    --card:#3d222f;
+    --card-2:#492a38;
+    --line:#5a3546;
+    --text:#f7ecf0;
+    --muted:#c6a6b3;
+    --gold:#e9c079;
     --gold-2:#c98a3a;
     --wine:#7b2233;
     --green:#3fae7a;
@@ -25,7 +25,7 @@
   html{scroll-behavior:smooth}
   body{
     font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-    background:radial-gradient(1200px 600px at 80% -10%,#2a1a12 0%,var(--bg) 60%);
+    background:radial-gradient(1200px 600px at 80% -10%,#5a2a3d 0%,var(--bg) 60%);
     color:var(--text);
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
@@ -36,7 +36,7 @@
   /* ---------- Age gate ---------- */
   #ageGate{
     position:fixed;inset:0;z-index:100;
-    background:linear-gradient(160deg,#0d0906,#1b1008);
+    background:linear-gradient(160deg,#1f0f16,#3a1626);
     display:flex;align-items:center;justify-content:center;padding:24px;
   }
   #ageGate .box{
@@ -63,13 +63,18 @@
   header.site{
     position:sticky;top:0;z-index:40;
     backdrop-filter:blur(10px);
-    background:rgba(18,13,10,.82);
+    background:rgba(42,22,32,.82);
     border-bottom:1px solid var(--line);
   }
   .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .brand{font-size:1.5rem;font-weight:800;letter-spacing:.3px}
-  .brand span{color:var(--gold)}
+  .brand{display:flex;align-items:center;gap:11px;font-size:1.5rem;font-weight:800;letter-spacing:.3px}
+  .brand .txt span{color:var(--gold)}
   .brand small{display:block;font-size:.62rem;letter-spacing:3px;color:var(--muted);font-weight:600;margin-top:-4px}
+  .logo-mark{width:44px;height:44px;flex:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+  #ageGate .logo{display:flex;flex-direction:column;align-items:center;gap:10px}
+  #ageGate .logo .logo-mark{width:66px;height:66px}
+  footer .brand{font-size:1.3rem}
+  footer .logo-mark{width:38px;height:38px}
   .cart-btn{
     position:relative;background:var(--card-2);border:1px solid var(--line);
     color:var(--text);border-radius:999px;padding:9px 18px;cursor:pointer;font-weight:600;
@@ -131,7 +136,7 @@
   .card:hover{transform:translateY(-4px);border-color:var(--gold-2);box-shadow:var(--shadow)}
   .card .thumb{
     height:150px;display:flex;align-items:center;justify-content:center;font-size:4.4rem;
-    background:radial-gradient(circle at 50% 30%,#3a2418,#1c120c);position:relative;
+    background:radial-gradient(circle at 50% 30%,#4d2636,#26121b);position:relative;
   }
   .rank-badge{
     position:absolute;top:12px;left:12px;background:var(--wine);color:#fff;
@@ -149,7 +154,7 @@
   .sweet-top{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--muted)}
   .sweet-top b{color:var(--text)}
   .sweet-bar{display:flex;gap:4px}
-  .sweet-seg{height:8px;flex:1;border-radius:4px;background:#3a281e}
+  .sweet-seg{height:8px;flex:1;border-radius:4px;background:#4a2c3b}
   .sweet-seg.on{background:linear-gradient(90deg,var(--gold-2),var(--gold))}
 
   /* sales / popularity */
@@ -228,7 +233,7 @@
   .offer.hot{border-color:var(--gold-2);background:linear-gradient(135deg,rgba(224,169,94,.12),transparent)}
   .offer.done{border-color:rgba(63,174,122,.5);background:rgba(63,174,122,.12);color:var(--text)}
   .offer b{color:var(--text)}
-  .prog{height:8px;background:#3a281e;border-radius:5px;margin-top:8px;overflow:hidden}
+  .prog{height:8px;background:#4a2c3b;border-radius:5px;margin-top:8px;overflow:hidden}
   .prog>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-2),var(--gold));border-radius:5px;transition:.35s width}
   .prog.full>i{background:linear-gradient(90deg,var(--green),#5fd499)}
   .sumline{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted);margin-bottom:6px}
@@ -260,7 +265,18 @@
 <!-- ===== AGE GATE ===== -->
 <div id="ageGate">
   <div class="box">
-    <div class="logo">Disfrú<span>talo</span></div>
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="dg1" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#f2d18c"/><stop offset="1" stop-color="#c98a3a"/></linearGradient></defs>
+        <circle cx="32" cy="32" r="29" fill="#3d222f" stroke="url(#dg1)" stroke-width="2.2"/>
+        <path d="M22 17 H42 C42 26.5 37.4 32.4 32 33.6 C26.6 32.4 22 26.5 22 17 Z" fill="#7b2233" stroke="url(#dg1)" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M25.5 20 H38.5" stroke="url(#dg1)" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+        <path d="M32 33.6 V45" stroke="url(#dg1)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M24 46.5 H40" stroke="url(#dg1)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M45 13 l1.3 3.4 3.4 1.3 -3.4 1.3 -1.3 3.4 -1.3 -3.4 -3.4 -1.3 3.4 -1.3 z" fill="url(#dg1)"/>
+      </svg>
+      <div>Disfrú<span>talo</span></div>
+    </div>
     <p>Para ingresar debes ser mayor de 18 años.<br>El consumo de alcohol es responsabilidad de quien lo consume.</p>
     <div class="gate-actions">
       <button class="btn btn-gold" onclick="passGate()">Soy mayor de 18</button>
@@ -273,7 +289,18 @@
 <!-- ===== HEADER ===== -->
 <header class="site">
   <div class="wrap nav">
-    <div class="brand">Disfrú<span>talo</span><small>LICORERÍA</small></div>
+    <div class="brand">
+      <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="dg2" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#f2d18c"/><stop offset="1" stop-color="#c98a3a"/></linearGradient></defs>
+        <circle cx="32" cy="32" r="29" fill="#3d222f" stroke="url(#dg2)" stroke-width="2.2"/>
+        <path d="M22 17 H42 C42 26.5 37.4 32.4 32 33.6 C26.6 32.4 22 26.5 22 17 Z" fill="#7b2233" stroke="url(#dg2)" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M25.5 20 H38.5" stroke="url(#dg2)" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+        <path d="M32 33.6 V45" stroke="url(#dg2)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M24 46.5 H40" stroke="url(#dg2)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M45 13 l1.3 3.4 3.4 1.3 -3.4 1.3 -1.3 3.4 -1.3 -3.4 -3.4 -1.3 3.4 -1.3 z" fill="url(#dg2)"/>
+      </svg>
+      <div class="txt">Disfrú<span>talo</span><small>LICORERÍA</small></div>
+    </div>
     <button class="cart-btn" onclick="openCart()">
       🎉 Mi carrete <span class="cart-count" id="cartCount">0</span>
     </button>
@@ -358,7 +385,18 @@
 <footer class="site">
   <div class="wrap foot-grid">
     <div>
-      <div class="brand">Disfrú<span>talo</span></div>
+      <div class="brand">
+        <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs><linearGradient id="dg3" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#f2d18c"/><stop offset="1" stop-color="#c98a3a"/></linearGradient></defs>
+          <circle cx="32" cy="32" r="29" fill="#3d222f" stroke="url(#dg3)" stroke-width="2.2"/>
+          <path d="M22 17 H42 C42 26.5 37.4 32.4 32 33.6 C26.6 32.4 22 26.5 22 17 Z" fill="#7b2233" stroke="url(#dg3)" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M25.5 20 H38.5" stroke="url(#dg3)" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+          <path d="M32 33.6 V45" stroke="url(#dg3)" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M24 46.5 H40" stroke="url(#dg3)" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M45 13 l1.3 3.4 3.4 1.3 -3.4 1.3 -1.3 3.4 -1.3 -3.4 -3.4 -1.3 3.4 -1.3 z" fill="url(#dg3)"/>
+        </svg>
+        <div class="txt">Disfrú<span>talo</span></div>
+      </div>
       <p style="margin-top:10px">Licores seleccionados,<br>entregados con cariño.</p>
     </div>
     <div>
